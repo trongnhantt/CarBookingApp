@@ -40,7 +40,7 @@ class MyWiget extends StatelessWidget{
   MyWiget(this.loading);
   @override
   Widget build(BuildContext context) {
-    return loading ? CircularProgressIndicator() : const Text("loading is false");
+    return loading ? const CircularProgressIndicator() : const Text("loading is false");
   }
 
 }

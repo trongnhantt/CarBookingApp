@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget{
     return MaterialApp(
       home: const ScreenSignUp(),
       title: "Fluter App",
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: Colors.black
       ),
+      debugShowCheckedModeBanner: false,
     );
   }
 

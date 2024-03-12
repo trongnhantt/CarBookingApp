@@ -97,16 +97,26 @@ class _ScreenLoginState extends State<ScreenLogin> {
                     ),
                     // Text Button transition Login screen
                     TextButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder:(c) => ScreenSignUp()));
-                        },
-                        child: const Text(
-                          "Do not have an account ? Register now",
-                          style: TextStyle(
-                            fontSize: 15.0,
-                            color: Colors.grey,
-                          ),
-                        )
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (c) => ScreenSignUp()));
+                      },
+                      style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                            // Màu sẽ thay đổi khi TextButton được nhấn
+                            if (states.contains(MaterialState.pressed)) {
+                              return Colors.purple; // Màu khi nhấn vào
+                            }
+                            return Colors.grey; // Màu mặc định
+                          },
+                        ),
+                      ),
+                      child: const Text(
+                        "Do not have an account ? Register now",
+                        style: TextStyle(
+                          fontSize: 15.0,
+                        ),
+                      ),
                     ),
                   ],
                 ),

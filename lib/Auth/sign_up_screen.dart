@@ -148,6 +148,17 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                           onPressed: (){
                             Navigator.push(context, MaterialPageRoute(builder:(c) => ScreenLogin()));
                           },
+                          style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                // Màu sẽ thay đổi khi TextButton được nhấn
+                                if (states.contains(MaterialState.pressed)) {
+                                  return Colors.purple; // Màu khi nhấn vào
+                                }
+                                return Colors.grey; // Màu mặc định
+                              },
+                            ),
+                          ),
                           child: const Text(
                             "Do you have an account ??? Login now",
                             style: TextStyle(

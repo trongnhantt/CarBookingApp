@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+
+import 'package:app_car_booking/Auth/login_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -25,7 +26,9 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
           child: Column(
             children: [
               Image.asset(
-                "assets/images/logo.png"
+                "assets/images/logo.png",
+                width: 300.0,
+                height: 300.0,
               ),
               const Text(
                 "Create a User\'s Account",
@@ -122,7 +125,37 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                           fontSize: 15.0,
                           color: Colors.grey,
                         ),
-                      )
+                      ),
+                      const SizedBox(height: 20,),
+                      // Button Sign up
+                      ElevatedButton(
+                        onPressed: () {
+
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.purple,
+                          padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        child: const Text(
+                          "Sign Up",
+                        ),
+                      ),
+                      // Text Button transition Login screen
+                      TextButton(
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder:(c) => ScreenLogin()));
+                          },
+                          child: const Text(
+                            "Do you have an account ??? Login now",
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.grey,
+                            ),
+                          )
+                      ),
                     ],
                   ),
               ),

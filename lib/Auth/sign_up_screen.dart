@@ -1,5 +1,6 @@
 
 import 'package:app_car_booking/Auth/login_screen.dart';
+import 'package:app_car_booking/Methods/common_methods.dart';
 import 'package:flutter/material.dart';
 
 
@@ -17,6 +18,13 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
   TextEditingController usernameEditText = TextEditingController();
   TextEditingController passwordEditText = TextEditingController();
   TextEditingController confirmPwdEditText = TextEditingController();
+  CommonMethods commonMethods = CommonMethods();
+
+  checkIfNetworkIsAvailable(){
+    commonMethods.checkConnectivity(context);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,7 +138,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                       // Button Sign up
                       ElevatedButton(
                         onPressed: () {
-
+                          checkIfNetworkIsAvailable();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.purple,

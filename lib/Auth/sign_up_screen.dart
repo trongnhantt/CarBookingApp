@@ -2,6 +2,7 @@
 import 'package:app_car_booking/Auth/login_screen.dart';
 import 'package:app_car_booking/Methods/common_methods.dart';
 import 'package:flutter/material.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 
 
@@ -15,6 +16,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
 
   // Init edit text for user
   TextEditingController emailEditText = TextEditingController();
+  TextEditingController phoneEditText = TextEditingController();
   TextEditingController usernameEditText = TextEditingController();
   TextEditingController passwordEditText = TextEditingController();
   TextEditingController confirmPwdEditText = TextEditingController();
@@ -24,6 +26,36 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
     commonMethods.checkConnectivity(context);
   }
 
+
+  checkFormatSignUp(){
+
+    if(usernameEditText.text.isEmpty ||
+        emailEditText.text.isEmpty ||
+        usernameEditText.text.isEmpty ||
+        phoneEditText.text.isEmpty ||
+        passwordEditText.text.isEmpty||
+        confirmPwdEditText.text.isEmpty)
+    {
+      commonMethods.DisplayBox(context, "Warning !!", "Information cannot be left blank", ContentType.warning);
+      return;
+    }
+    if(usernameEditText.text.trim().length < 3){
+      commonMethods.DisplayBox(context, "Ooops !!", "Your name must be longer than 4 characters", ContentType.failure);
+      usernameEditText.text = "";
+    }
+    else if(!emailEditText.text.contains("@")){
+      commonMethods.DisplayBox(context, "Ooops !!", "Please write email format", ContentType.failure);
+    }
+    else if(phoneEditText.text.trim().length<7){
+      commonMethods.DisplayBox(context, "Ooops !!", "Phone number must be more than 8 digits", ContentType.failure);
+    }
+    else if(int.tryParse(phoneEditText.text) == null){
+      commonMethods.DisplayBox(context, "Ooops !!", "Please write phone number format", ContentType.failure);
+    }
+    else if(passwordEditText.text.trim().toString() != confirmPwdEditText.text.trim().toString()){
+      commonMethods.DisplayBox(context, "Ooops !!", "Confirm password are not match", ContentType.failure);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +67,8 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
             children: [
               Image.asset(
                 "assets/images/logo.png",
-                width: 300.0,
-                height: 300.0,
+                width: 270.0,
+                height: 270.0,
               ),
               const Text(
                 "Create a User\'s Account",
@@ -67,6 +99,27 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 15.0,
+                        ),
+                      ),
+                      const SizedBox(height: 7,),
+                      TextField(
+                        controller: phoneEditText,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          labelText: "Phone number",
+                          labelStyle: TextStyle(
+                            fontSize: 14.0
+                          ),
+                          hintText: "Enter your name",
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blue,width: 2.0),
+                          ),
+                          prefixIcon: Icon(Icons.phone),
+                        ),
+                        style: const TextStyle(
+                            fontSize: 15.0,
+                            color: Colors.grey
                         ),
                       ),
                       const SizedBox(height: 7,),
@@ -139,6 +192,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                       ElevatedButton(
                         onPressed: () {
                           checkIfNetworkIsAvailable();
+                          checkFormatSignUp();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.purple,

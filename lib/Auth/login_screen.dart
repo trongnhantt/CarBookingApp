@@ -22,8 +22,8 @@ class _ScreenLoginState extends State<ScreenLogin> {
             children: [
               Image.asset(
                 "assets/images/logo.png",
-                width: 300.0,
-                height: 300.0,
+                width: 400,
+                height: 400,
               ),
               const Text(
                 "Login",
@@ -40,10 +40,6 @@ class _ScreenLoginState extends State<ScreenLogin> {
                       controller: emailEditText,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
-                        labelText: "Email",
-                        labelStyle: TextStyle(
-                          fontSize: 14.0,
-                        ),
                         hintText: "Enter your Email",
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
@@ -62,10 +58,6 @@ class _ScreenLoginState extends State<ScreenLogin> {
                       obscureText: true,
                       keyboardType: TextInputType.text,
                       decoration: const InputDecoration(
-                        labelText: "Password",
-                        labelStyle: TextStyle(
-                          fontSize: 14.0,
-                        ),
                         hintText: "Enter your password",
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
@@ -78,7 +70,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
                           color: Colors.grey
                       ),
                     ),
-                    const SizedBox(height: 20,),
+                    const SizedBox(height: 150,),
                     // Button Sign up
                     ElevatedButton(
                       onPressed: () {

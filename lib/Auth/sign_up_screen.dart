@@ -78,6 +78,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
           email: emailEditText.text.trim(),
           password: passwordEditText.text.trim()
       ).catchError((errMsg){
+        Navigator.pop(context);
         commonMethods.DisplayBox(context, "Error !!!!", errMsg.toString(), ContentType.failure);
       })
     ).user;
@@ -126,10 +127,6 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                         controller: emailEditText,
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
-                          labelText: "Email",
-                          labelStyle: TextStyle(
-                            fontSize: 14.0,
-                          ),
                           hintText: "Enter your Email",
                           border: OutlineInputBorder(),
                           focusedBorder: OutlineInputBorder(
@@ -147,10 +144,6 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                         controller: phoneEditText,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
-                          labelText: "Phone number",
-                          labelStyle: TextStyle(
-                            fontSize: 14.0
-                          ),
                           hintText: "Enter your name",
                           border: OutlineInputBorder(),
                           focusedBorder: OutlineInputBorder(
@@ -168,10 +161,6 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                         controller: usernameEditText,
                         keyboardType: TextInputType.text,
                         decoration: const InputDecoration(
-                          labelText: "User name",
-                          labelStyle: TextStyle(
-                            fontSize: 14.0,
-                          ),
                           hintText: "Enter your name",
                           border: OutlineInputBorder(),
                           focusedBorder: OutlineInputBorder(
@@ -190,10 +179,6 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                         obscureText: true,
                         keyboardType: TextInputType.text,
                         decoration: const InputDecoration(
-                          labelText: "Password",
-                          labelStyle: TextStyle(
-                            fontSize: 14.0,
-                          ),
                           hintText: "Enter your password",
                           border: OutlineInputBorder(),
                           focusedBorder: OutlineInputBorder(
@@ -212,10 +197,6 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                         obscureText: true,
                         keyboardType: TextInputType.text,
                         decoration: const InputDecoration(
-                          labelText: "Confirm password",
-                          labelStyle: TextStyle(
-                            fontSize: 14.0
-                          ),
                           hintText: "Enter confirm password",
                           border: OutlineInputBorder(),
                           focusedBorder: OutlineInputBorder(

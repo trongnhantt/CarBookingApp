@@ -1,6 +1,11 @@
 
 import 'package:app_car_booking/Auth/login_screen.dart';
 import 'package:app_car_booking/Methods/common_methods.dart';
+import 'package:app_car_booking/Pages/page_home.dart';
+import 'package:app_car_booking/Widgets/loading_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
@@ -54,8 +59,44 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
     }
     else if(passwordEditText.text.trim().toString() != confirmPwdEditText.text.trim().toString()){
       commonMethods.DisplayBox(context, "Ooops !!", "Confirm password are not match", ContentType.failure);
+    }else{
+      regristerNewUser();
     }
   }
+
+
+  regristerNewUser() async{
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => LoadingDialog(messageText: "Registering your account!! Wait a moment......."),
+    );
+
+    // Add user in firebase
+    final User? userFirebase = (
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailEditText.text.trim(),
+          password: passwordEditText.text.trim()
+      ).catchError((errMsg){
+        commonMethods.DisplayBox(context, "Error !!!!", errMsg.toString(), ContentType.failure);
+      })
+    ).user;
+    if(!context.mounted) return;
+    Navigator.pop(context);
+
+    DatabaseReference userRef = FirebaseDatabase.instance.ref().child("users").child(userFirebase!.uid);
+
+    Map userDataMap = {
+      "email": emailEditText.text.trim(),
+      "name" : usernameEditText.text.trim(),
+      "phone": phoneEditText.text.trim(),
+      "password" : passwordEditText.text.trim(),
+    };
+    userRef.set(userDataMap);
+    Navigator.push(context, MaterialPageRoute(builder: (c)=>HomePage()));
+  }
+
+
 
   @override
   Widget build(BuildContext context) {

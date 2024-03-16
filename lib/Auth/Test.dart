@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
     mediaSize = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        color: myColor,
+        color: Colors.white,
         image: DecorationImage(
           image: const AssetImage("assets/images/bg.png"),
           fit: BoxFit.cover,

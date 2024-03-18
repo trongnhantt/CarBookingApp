@@ -16,11 +16,11 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    myColor = Theme.of(context).primaryColor;
+    myColor = Colors.purpleAccent;
     mediaSize = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.transparent,
         image: DecorationImage(
           image: const AssetImage("assets/images/bg.png"),
           fit: BoxFit.cover,
@@ -50,11 +50,11 @@ class _LoginPageState extends State<LoginPage> {
             color: Colors.white,
           ),
           Text(
-            "GO MAP",
+            "MOVE EASE",
             style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 40,
+                fontSize: 30,
                 letterSpacing: 2),
           )
         ],
@@ -117,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
-        suffixIcon: isPassword ? Icon(Icons.remove_red_eye) : Icon(Icons.done),
+        suffixIcon: isPassword ? Icon(Icons.remove_red_eye) : Icon(Icons.email),
       ),
       obscureText: isPassword,
     );

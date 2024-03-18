@@ -69,7 +69,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (BuildContext context) => LoadingDialog(messageText: "Registering your account!! Wait a moment......."),
+        builder: (BuildContext context) => LoadingDialog(messageText: "Registering your account ....."),
     );
 
     // Add user in firebase

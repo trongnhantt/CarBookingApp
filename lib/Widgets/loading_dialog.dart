@@ -19,7 +19,7 @@ class LoadingDialog extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16), // Đã thêm từ khóa 'const' ở đây
+          padding: const EdgeInsets.only(right: 16), // Đã thêm từ khóa 'const' ở đây
           child: Row(
             children: [
               const SizedBox(width: 5), // Đã xóa dấu cách ở đây
@@ -33,6 +33,7 @@ class LoadingDialog extends StatelessWidget {
                     fontSize: 16,
                     color: Colors.white,
                 ),
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

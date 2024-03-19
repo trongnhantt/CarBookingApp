@@ -1,5 +1,10 @@
 import 'package:app_car_booking/Auth/sign_up_screen.dart';
+import 'package:app_car_booking/Methods/common_methods.dart';
+import 'package:app_car_booking/Pages/page_home.dart';
+import 'package:app_car_booking/Widgets/loading_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class ScreenLogin extends StatefulWidget {
   const ScreenLogin({super.key});
@@ -12,6 +17,80 @@ class _ScreenLoginState extends State<ScreenLogin> {
   TextEditingController emailEditText = TextEditingController();
   TextEditingController usernameEditText = TextEditingController();
   TextEditingController passwordEditText = TextEditingController();
+  CommonMethods commonMethods = new CommonMethods();
+
+  checkIfNetworkIsAvailable(){
+    commonMethods.checkConnectivity(context);
+    checkFormatLogin();
+  }
+
+
+  checkFormatLogin(){
+
+    if(emailEditText.text.isEmpty ||
+        passwordEditText.text.isEmpty)
+    {
+      commonMethods.DisplayBox(context, "Warning !!", "Information cannot be left blank", ContentType.warning);
+      return;
+    }
+    if(!emailEditText.text.trim().contains("@")){
+      commonMethods.DisplayBox(context, "Ooops !!", "Please write email format", ContentType.failure);
+      emailEditText.text = "";
+    }
+    else{
+      signInUser();
+    }
+  }
+
+  signInUser() async{
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context)=>LoadingDialog(messageText: "Allowing you to login ...")
+    );
+    /*final User? userFirebase = (
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailEditText.text.trim(),
+          password: passwordEditText.text.trim()
+      ).catchError((erroMsg){
+        commonMethods.DisplayBox(context, "Error !!! ", "Login failed", ContentType.failure);
+      })
+    ).user;
+    if(!context.mounted) return;
+    Navigator.pop(context);*/
+
+    try{
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+              email: emailEditText.text.trim(),
+              password: passwordEditText.text.trim(),
+          );
+
+      if(!context.mounted) return;
+      Navigator.pop(context);
+      if(FirebaseAuth.instance.currentUser != null){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+      }
+      else
+      {
+        // Sign In fail
+        commonMethods.DisplayBox(context, "Failed !!! ", "Login failed", ContentType.failure,);
+      }
+    }
+    catch (errorMsg){
+      // Dismiss the loading dialog
+      Navigator.pop(context);
+      // Display error message to user
+      commonMethods.DisplayBox(
+        context,
+        "Error !!! ",
+        "Login failed: $errorMsg",
+        ContentType.failure,
+      );
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +153,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
                     // Button Sign up
                     ElevatedButton(
                       onPressed: () {
-
+                        checkFormatLogin();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.purple,

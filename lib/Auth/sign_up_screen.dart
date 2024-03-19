@@ -29,6 +29,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
 
   checkIfNetworkIsAvailable(){
     commonMethods.checkConnectivity(context);
+    checkFormatSignUp();
   }
 
 
@@ -92,6 +93,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
       "name" : usernameEditText.text.trim(),
       "phone": phoneEditText.text.trim(),
       "password" : passwordEditText.text.trim(),
+      "blockedStatus" : "no",
     };
     userRef.set(userDataMap);
     Navigator.push(context, MaterialPageRoute(builder: (c)=>HomePage()));
@@ -214,7 +216,6 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                       ElevatedButton(
                         onPressed: () {
                           checkIfNetworkIsAvailable();
-                          checkFormatSignUp();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.purple,

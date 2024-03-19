@@ -21,7 +21,7 @@ class CommonMethods{
   }
 
   DisplayBox(BuildContext context,String titleOfBox, String messageOfBox, ContentType contentTypeOfBox){
-    final snackBar = SnackBar(
+    /*final snackBar = SnackBar(
       /// need to set following properties for best effect of awesome_snackbar_content
       elevation: 0,
       behavior: SnackBarBehavior.floating,
@@ -33,11 +33,26 @@ class CommonMethods{
         contentType: contentTypeOfBox,
       ),
     );
-
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(snackBar);
+      ..showSnackBar(snackBar);*/
+    final materialBanner = MaterialBanner(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      forceActionsBelow: false,
+      content: AwesomeSnackbarContent(
+        title: titleOfBox,
+        message: messageOfBox,
+        contentType: contentTypeOfBox,
+        // to configure for material banner
+        inMaterialBanner: true,
+      ),
+      actions: const [SizedBox.shrink()],
+    );
 
+    ScaffoldMessenger.of(context)
+      ..hideCurrentMaterialBanner()
+      ..showMaterialBanner(materialBanner);
   }
 
 }

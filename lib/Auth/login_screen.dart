@@ -1,8 +1,10 @@
+
 import 'package:app_car_booking/Auth/sign_up_screen.dart';
 import 'package:app_car_booking/Methods/common_methods.dart';
 import 'package:app_car_booking/Pages/page_home.dart';
 import 'package:app_car_booking/Widgets/loading_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
@@ -48,7 +50,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
         barrierDismissible: false,
         builder: (BuildContext context)=>LoadingDialog(messageText: "Allowing you to login ...")
     );
-    /*final User? userFirebase = (
+    final User? userFirebase = (
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailEditText.text.trim(),
           password: passwordEditText.text.trim()
@@ -57,38 +59,26 @@ class _ScreenLoginState extends State<ScreenLogin> {
       })
     ).user;
     if(!context.mounted) return;
-    Navigator.pop(context);*/
+    Navigator.pop(context);
 
-    try{
-      final UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-              email: emailEditText.text.trim(),
-              password: passwordEditText.text.trim(),
-          );
-
-      if(!context.mounted) return;
-      Navigator.pop(context);
-      if(FirebaseAuth.instance.currentUser != null){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
-      }
-      else
-      {
-        // Sign In fail
-        commonMethods.DisplayBox(context, "Failed !!! ", "Login failed", ContentType.failure,);
-      }
+    if(userFirebase != null){
+      DatabaseReference userRefDatabase = FirebaseDatabase.instance.ref().child("users").child(userFirebase.uid);
+      userRefDatabase.once().then((snap){
+        if(snap.snapshot.value != null){
+          if((snap.snapshot.value as Map)["blockedStatus"] == "no"){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+          }
+          else
+          {
+            FirebaseAuth.instance.signOut();
+            commonMethods.DisplayBox(context, "Error", "This account is blocked. Contact with admin", ContentType.failure);
+          }
+        }
+        else{
+          commonMethods.DisplayBox(context, "Ooops", "Account not exists !!!!", ContentType.warning);
+        }
+      });
     }
-    catch (errorMsg){
-      // Dismiss the loading dialog
-      Navigator.pop(context);
-      // Display error message to user
-      commonMethods.DisplayBox(
-        context,
-        "Error !!! ",
-        "Login failed: $errorMsg",
-        ContentType.failure,
-      );
-    }
-
   }
 
   @override

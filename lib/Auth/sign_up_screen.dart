@@ -11,13 +11,13 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 
 
-class ScreenSignUp extends StatefulWidget {
-  const ScreenSignUp({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
   @override
-  State<ScreenSignUp> createState() => _ScreenSignUpState();
+  State<SignUpPage> createState() => _ScreenSignUpState();
 }
 
-class _ScreenSignUpState extends State<ScreenSignUp> {
+class _ScreenSignUpState extends State<SignUpPage> {
 
   // Init edit text for user
   TextEditingController emailEditText = TextEditingController();
@@ -231,7 +231,7 @@ class _ScreenSignUpState extends State<ScreenSignUp> {
                       // Text Button transition Login screen
                       TextButton(
                           onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder:(c) => ScreenLogin()));
+                            Navigator.push(context, MaterialPageRoute(builder:(c) => LoginPage()));
                           },
                           style: ButtonStyle(
                             foregroundColor: MaterialStateProperty.resolveWith<Color>(

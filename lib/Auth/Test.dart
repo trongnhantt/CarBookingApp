@@ -1,4 +1,12 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import '../Methods/common_methods.dart';
+import '../Pages/page_home.dart';
+import '../Widgets/loading_dialog.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,9 +18,110 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late Color myColor;
   late Size mediaSize;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
   bool rememberUser = false;
+
+  TextEditingController emailEditText = TextEditingController();
+  TextEditingController usernameEditText = TextEditingController();
+  TextEditingController passwordEditText = TextEditingController();
+  CommonMethods commonMethods = new CommonMethods();
+
+  checkIfNetworkIsAvailable(){
+    commonMethods.checkConnectivity(context);
+    checkFormatLogin();
+  }
+
+
+  checkFormatLogin(){
+
+    if(emailEditText.text.isEmpty ||
+        passwordEditText.text.isEmpty)
+    {
+      commonMethods.DisplayBox(context, "Warning !!", "Information cannot be left blank", ContentType.warning);
+      return;
+    }
+    if(!emailEditText.text.trim().contains("@")){
+      commonMethods.DisplayBox(context, "Ooops !!", "Please write email format", ContentType.failure);
+      emailEditText.text = "";
+    }
+    else{
+      signInUser();
+    }
+  }
+
+  signInUser() async{
+    /*showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context)=>LoadingDialog(messageText: "Allowing you to login ...")
+    );
+    final User? userFirebase = (
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: emailEditText.text.trim(),
+            password: passwordEditText.text.trim()
+        ).catchError((erroMsg){
+          commonMethods.DisplayBox(context, "Error !!! ", "Login failed", ContentType.failure);
+        })
+    ).user;
+    if(!context.mounted) return;
+    Navigator.pop(context);
+    if(userFirebase != null){
+      DatabaseReference userRefDatabase = FirebaseDatabase.instance.ref().child("users").child(userFirebase.uid);
+      userRefDatabase.once().then((snap){
+        if(snap.snapshot.value != null){
+          if((snap.snapshot.value as Map)["blockedStatus"] == "no"){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+          }
+          else
+          {
+            FirebaseAuth.instance.signOut();
+            commonMethods.DisplayBox(context, "Error", "This account is blocked. Contact with admin", ContentType.failure);
+          }
+        }
+        else{
+          commonMethods.DisplayBox(context, "Ooops", "Account not exists !!!!", ContentType.warning);
+        }
+      });
+    }*/
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => LoadingDialog(messageText: "Allowing you to login ..."),
+    );
+
+    bool loginSuccess = false; // Thêm biến boolean này
+
+    try {
+      final User? userFirebase = (await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailEditText.text.trim(),
+        password: passwordEditText.text.trim(),
+      )).user;
+
+      loginSuccess = true; // Đánh dấu đăng nhập thành công
+
+      if (userFirebase != null) {
+        DatabaseReference userRefDatabase = FirebaseDatabase.instance.ref().child("users").child(userFirebase.uid);
+        userRefDatabase.once().then((snap) {
+          if (snap.snapshot.value != null) {
+            if ((snap.snapshot.value as Map)["blockedStatus"] == "no") {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+            } else {
+              FirebaseAuth.instance.signOut();
+              commonMethods.DisplayBox(context, "Error", "This account is blocked. Contact with admin", ContentType.failure);
+            }
+          } else {
+            commonMethods.DisplayBox(context, "Ooops", "Account not exists !!!!", ContentType.warning);
+          }
+        });
+      }
+    } catch (error) {
+      // Đăng nhập thất bại
+      commonMethods.DisplayBox(context, "Error !!! ", "Login failed", ContentType.failure);
+    }
+    if (!context.mounted) return;
+    if (!loginSuccess) {
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,10 +200,10 @@ class _LoginPageState extends State<LoginPage> {
         _buildGreyText("Please login with your information"),
         const SizedBox(height: 60),
         _buildGreyText("Email address"),
-        _buildInputField(emailController),
+        _buildInputField(emailEditText),
         const SizedBox(height: 40),
         _buildGreyText("Password"),
-        _buildInputField(passwordController, isPassword: true),
+        _buildInputField(passwordEditText, isPassword: true),
         const SizedBox(height: 20),
         _buildRememberForgot(),
         const SizedBox(height: 20),
@@ -148,8 +257,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildLoginButton() {
     return ElevatedButton(
       onPressed: () {
-        debugPrint("Email : ${emailController.text}");
-        debugPrint("Password : ${passwordController.text}");
+        checkIfNetworkIsAvailable();
       },
       style: ElevatedButton.styleFrom(
         shape: const StadiumBorder(),

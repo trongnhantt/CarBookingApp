@@ -48,39 +48,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   signInUser() async{
-    /*showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context)=>LoadingDialog(messageText: "Allowing you to login ...")
-    );
-    final User? userFirebase = (
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: emailEditText.text.trim(),
-            password: passwordEditText.text.trim()
-        ).catchError((erroMsg){
-          commonMethods.DisplayBox(context, "Error !!! ", "Login failed", ContentType.failure);
-        })
-    ).user;
-    if(!context.mounted) return;
-    Navigator.pop(context);
-    if(userFirebase != null){
-      DatabaseReference userRefDatabase = FirebaseDatabase.instance.ref().child("users").child(userFirebase.uid);
-      userRefDatabase.once().then((snap){
-        if(snap.snapshot.value != null){
-          if((snap.snapshot.value as Map)["blockedStatus"] == "no"){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
-          }
-          else
-          {
-            FirebaseAuth.instance.signOut();
-            commonMethods.DisplayBox(context, "Error", "This account is blocked. Contact with admin", ContentType.failure);
-          }
-        }
-        else{
-          commonMethods.DisplayBox(context, "Ooops", "Account not exists !!!!", ContentType.warning);
-        }
-      });
-    }*/
     showDialog(
       context: context,
       barrierDismissible: false,

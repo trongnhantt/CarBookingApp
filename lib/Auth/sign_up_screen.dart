@@ -11,13 +11,13 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
   @override
-  State<SignUpPage> createState() => _ScreenSignUpState();
+  State<SignUp> createState() => _ScreenSignUpState();
 }
 
-class _ScreenSignUpState extends State<SignUpPage> {
+class _ScreenSignUpState extends State<SignUp> {
 
   // Init edit text for user
   TextEditingController emailEditText = TextEditingController();

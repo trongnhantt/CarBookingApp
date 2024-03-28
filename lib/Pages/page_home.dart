@@ -1,10 +1,66 @@
 
-
-
+import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../Global/global_var.dart';
 
 
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => HomePageState();
+}
+
+class HomePageState extends State<HomePage> {
+
+  final Completer<GoogleMapController> googleMapCompleter = Completer<GoogleMapController>();
+  GoogleMapController? controllerGoogleMap;
+
+  updateThemeMap(GoogleMapController controller){
+    getDataFromJson("themes/map_theme_night.json").then((value) => setStyleMap(controller, value));
+  }
+
+
+  Future<String> getDataFromJson(String path) async{
+    ByteData byteData = await rootBundle.load(path);
+    var list = byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
+    return utf8.decode(list);
+  }
+
+  setStyleMap(GoogleMapController controller,String dataMapStyle){
+    controller.setMapStyle(dataMapStyle);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return  Scaffold(
+      body: Stack(
+        children: [
+          GoogleMap(
+            mapType: MapType.normal,
+            myLocationEnabled: true,
+            initialCameraPosition: googleInitPos,
+            onMapCreated: (GoogleMapController mapController){
+              controllerGoogleMap = mapController;
+              updateThemeMap(controllerGoogleMap!);
+              googleMapCompleter.complete(controllerGoogleMap);
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+
+}
+
+/*
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
   @override
@@ -70,3 +126,4 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+*/

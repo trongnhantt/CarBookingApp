@@ -1,6 +1,5 @@
 
 import 'package:app_car_booking/Auth/login_screen.dart';
-import 'package:app_car_booking/Auth/sign_up_screen.dart';
 import 'package:app_car_booking/Auth/signup_screen.dart';
 import 'package:app_car_booking/Map/map_display.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return MaterialApp(
-      home: const SignUpPage(),
+      home: const LoginPage(),
       title: "Fluter App",
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.black

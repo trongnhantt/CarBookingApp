@@ -1,5 +1,6 @@
 
-import 'package:app_car_booking/Auth/sign_up_screen.dart';
+
+import 'package:app_car_booking/Auth/signup_screen.dart';
 import 'package:app_car_booking/Methods/common_methods.dart';
 import 'package:app_car_booking/Pages/page_home.dart';
 import 'package:app_car_booking/Widgets/loading_dialog.dart';
@@ -188,6 +189,16 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget _buildColorText(String text,Color c) {
+    return Text(
+      text,
+      style:  TextStyle(
+          color: c,
+          fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
   Widget _buildInputField(TextEditingController controller,
       {isPassword = false}) {
     return TextField(
@@ -237,7 +248,44 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildOtherLogin() {
+
     return Center(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (c)=>SignUpPage()));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: _buildColorText("Sign up now !!! ",Colors.purpleAccent),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+
+                },
+                child: _buildGreyText("Or Login with"),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Tab(icon: Image.asset("assets/images/facebook.png")),
+              Tab(icon: Image.asset("assets/images/twitter.png")),
+              Tab(icon: Image.asset("assets/images/github.png")),
+            ],
+          )
+        ],
+      ),
+    );
+
+    /*return Center(
       child: Column(
         children: [
           _buildGreyText("Or Login with"),
@@ -252,7 +300,7 @@ class _LoginPageState extends State<LoginPage> {
           )
         ],
       ),
-    );
+    );*/
   }
 }
 

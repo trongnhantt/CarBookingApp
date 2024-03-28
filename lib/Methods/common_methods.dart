@@ -36,7 +36,12 @@ class CommonMethods{
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(snackBar);*/
-    final materialBanner = MaterialBanner(
+
+
+
+
+
+    /*final materialBanner = MaterialBanner(
       elevation: 0,
       backgroundColor: Colors.transparent,
       forceActionsBelow: false,
@@ -52,7 +57,27 @@ class CommonMethods{
 
     ScaffoldMessenger.of(context)
       ..hideCurrentMaterialBanner()
+      ..showMaterialBanner(materialBanner);*/
+
+    final materialBanner = MaterialBanner(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      forceActionsBelow: false,
+      content: AwesomeSnackbarContent(
+        title: titleOfBox,
+        message: messageOfBox,
+        contentType: contentTypeOfBox,
+        inMaterialBanner: true,
+      ),
+      actions: const [SizedBox.shrink()],
+    );
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentMaterialBanner()
       ..showMaterialBanner(materialBanner);
+    Future.delayed(Duration(seconds: 2), () {
+      ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+    });
   }
 
 }

@@ -28,8 +28,7 @@ class _SignUpPage extends State<SignUpPage> {
 
   checkIfNetworkIsAvailable(){
     checkFormatSignUp();
-    /*commonMethods.checkConnectivity(context);*/
-
+    commonMethods.checkConnectivity(context);
   }
 
 
@@ -80,7 +79,8 @@ class _SignUpPage extends State<SignUpPage> {
             password: passwordEditText.text.trim()
         ).catchError((errMsg){
           Navigator.pop(context);
-          commonMethods.DisplayBox(context, "Error !!!!", errMsg.toString(), ContentType.failure);
+          String msgError  = commonMethods.extractContent(errMsg.toString());
+          commonMethods.DisplayBox(context, "Error !!!!", msgError, ContentType.failure);
         })
     ).user;
     if(!context.mounted) return;

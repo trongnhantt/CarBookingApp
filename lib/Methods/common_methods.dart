@@ -42,4 +42,14 @@ class CommonMethods{
     });
   }
 
+  String extractContent(String inputString) {
+    int startIndex = inputString.indexOf("[");
+    int endIndex = inputString.indexOf("]");
+
+    if (startIndex != -1 && endIndex != -1 && endIndex > startIndex) {
+      return inputString.substring(endIndex + 1).trim();
+    } else return "";
+  }
+
+
 }

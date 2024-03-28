@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
       }
     } catch (error) {
       // Đăng nhập thất bại
-      commonMethods.DisplayBox(context, "Error !!! ", "Login failed", ContentType.failure);
+      commonMethods.DisplayBox(context, "Error !!! ", "Email or Password is incorrect", ContentType.failure);
     }
     if (!context.mounted) return;
     if (!loginSuccess) {

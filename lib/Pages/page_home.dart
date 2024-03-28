@@ -48,7 +48,6 @@ class HomePageState extends State<HomePage> {
             initialCameraPosition: googleInitPos,
             onMapCreated: (GoogleMapController mapController){
               controllerGoogleMap = mapController;
-              updateThemeMap(controllerGoogleMap!);
               googleMapCompleter.complete(controllerGoogleMap);
             },
           )

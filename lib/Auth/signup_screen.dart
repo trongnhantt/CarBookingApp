@@ -170,36 +170,37 @@ class _SignUpPage extends State<SignUpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        /*Text(
           "Welcome",
           style: TextStyle(
               color: myColor, fontSize: 30, fontWeight: FontWeight.w500),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 20),*/
 
         _buildGreyText("Email address"),
-        _buildInputField(emailEditText),
-        const SizedBox(height: 20),
+        _buildInputField(emailEditText,Icons.email),
+        const SizedBox(height: 15),
 
         _buildGreyText("Username"),
-        _buildInputField(usernameEditText),
-        const SizedBox(height: 20),
+        _buildInputField(usernameEditText,Icons.account_circle),
+        const SizedBox(height: 15),
 
 
         _buildGreyText("Phone number"),
-        _buildInputField(phoneEditText),
-        const SizedBox(height: 20),
+        _buildInputField(phoneEditText,Icons.phone),
+        const SizedBox(height: 15),
 
         _buildGreyText("Password"),
-        _buildInputField(passwordEditText, isPassword: true),
-        const SizedBox(height: 20),
+        _buildInputField(passwordEditText,Icons.remove_red_eye, isPassword: true),
+        const SizedBox(height: 15),
 
         _buildGreyText("Conform password"),
-        _buildInputField(confirmPwdEditText, isPassword: true),
+        _buildInputField(confirmPwdEditText,Icons.remove_red_eye, isPassword: true),
         const SizedBox(height: 20),
 
         _buildSignUpButton(),
-        const SizedBox(height: 20),
+        const SizedBox(height: 25),
+        _transittionLogin(),
       ],
     );
   }
@@ -211,12 +212,22 @@ class _SignUpPage extends State<SignUpPage> {
     );
   }
 
-  Widget _buildInputField(TextEditingController controller,
+  Widget _buildColorText(String text,Color c) {
+    return Text(
+      text,
+      style:  TextStyle(
+        color: c,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  Widget _buildInputField(TextEditingController controller,IconData icon ,
       {isPassword = false}) {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
-        suffixIcon: isPassword ? Icon(Icons.remove_red_eye) : Icon(Icons.done),
+        suffixIcon: isPassword ? Icon(Icons.remove_red_eye) : Icon(icon),
       ),
       obscureText: isPassword,
     );
@@ -259,18 +270,28 @@ class _SignUpPage extends State<SignUpPage> {
     );
   }
 
-  Widget _buildOtherLogin() {
+  Widget _transittionLogin() {
     return Center(
       child: Column(
         children: [
-          _buildGreyText("Or Login with"),
-          const SizedBox(height: 10),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Tab(icon: Image.asset("assets/images/facebook.png")),
-              Tab(icon: Image.asset("assets/images/twitter.png")),
-              Tab(icon: Image.asset("assets/images/github.png")),
+              GestureDetector(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: _buildGreyText("Already have an account."),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (c)=>LoginPage()));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: _buildColorText("Log in now !!! ",Colors.purpleAccent),
+                ),
+              ),
             ],
           )
         ],

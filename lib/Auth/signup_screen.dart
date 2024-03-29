@@ -133,7 +133,7 @@ class _SignUpPage extends State<SignUpPage> {
         children: [
           Icon(
             Icons.location_on_sharp,
-            size: 90,
+            size: 100,
             color: Colors.white,
           ),
           Text(

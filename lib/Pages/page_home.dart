@@ -27,7 +27,7 @@ class HomePageState extends State<HomePage> {
   GoogleMapController? controllerGoogleMap;
   Position? currentPosOfUser;
 
-  updateThemeMap(GoogleMapController controller){
+  /*updateThemeMap(GoogleMapController controller){
     getDataFromJson("themes/map_theme_night.json").then((value) => setStyleMap(controller, value));
   }
 
@@ -40,7 +40,24 @@ class HomePageState extends State<HomePage> {
 
   setStyleMap(GoogleMapController controller,String dataMapStyle){
     controller.setMapStyle(dataMapStyle);
+  }*/
+  void updateMapTheme(GoogleMapController controller)
+  {
+    getJsonFileFromThemes("themes/map_theme_night.json").then((value)=> setGoogleMapStyle(value, controller));
   }
+
+  Future<String> getJsonFileFromThemes(String mapStylePath) async
+  {
+    ByteData byteData = await rootBundle.load(mapStylePath);
+    var list = byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
+    return utf8.decode(list);
+  }
+
+  setGoogleMapStyle(String googleMapStyle, GoogleMapController controller)
+  {
+    controller.setMapStyle(googleMapStyle);
+  }
+
 
   getCurrentPositionUser() async{
     Position posCurrentUsr = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.bestForNavigation);
@@ -50,16 +67,7 @@ class HomePageState extends State<HomePage> {
     controllerGoogleMap!.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
 
-  Future<String> getNameUser() async{
-    String name="";
-    try{
 
-    }
-    catch(errMsg){
-
-    }
-    return name;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -173,6 +181,7 @@ class HomePageState extends State<HomePage> {
             onMapCreated: (GoogleMapController mapController){
               controllerGoogleMap = mapController;
               googleMapCompleter.complete(controllerGoogleMap);
+              updateMapTheme(controllerGoogleMap!);
               getCurrentPositionUser();
             },
           ),

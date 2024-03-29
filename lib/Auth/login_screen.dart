@@ -1,6 +1,7 @@
 
 
 import 'package:app_car_booking/Auth/signup_screen.dart';
+import 'package:app_car_booking/Global/global_var.dart';
 import 'package:app_car_booking/Methods/common_methods.dart';
 import 'package:app_car_booking/Pages/page_home.dart';
 import 'package:app_car_booking/Widgets/loading_dialog.dart';
@@ -69,6 +70,8 @@ class _LoginPageState extends State<LoginPage> {
         DatabaseReference userRefDatabase = FirebaseDatabase.instance.ref().child("users").child(userFirebase.uid);
         userRefDatabase.once().then((snap) {
           if (snap.snapshot.value != null) {
+
+            userName = (snap.snapshot.value as Map)["name"];
             if ((snap.snapshot.value as Map)["blockedStatus"] == "no") {
               Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
             } else {

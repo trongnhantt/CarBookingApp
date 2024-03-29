@@ -50,6 +50,17 @@ class HomePageState extends State<HomePage> {
     controllerGoogleMap!.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
 
+  Future<String> getNameUser() async{
+    String name="";
+    try{
+
+    }
+    catch(errMsg){
+
+    }
+    return name;
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(

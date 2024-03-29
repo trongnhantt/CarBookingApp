@@ -3,7 +3,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:app_car_booking/Auth/login_screen.dart';
+import 'package:app_car_booking/Methods/common_methods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/services.dart';
@@ -23,24 +25,12 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
 
   final Completer<GoogleMapController> googleMapCompleter = Completer<GoogleMapController>();
+  CommonMethods commonMethods = new CommonMethods();
   GlobalKey<ScaffoldState> sKey = GlobalKey<ScaffoldState>();
   GoogleMapController? controllerGoogleMap;
   Position? currentPosOfUser;
 
-  /*updateThemeMap(GoogleMapController controller){
-    getDataFromJson("themes/map_theme_night.json").then((value) => setStyleMap(controller, value));
-  }
 
-
-  Future<String> getDataFromJson(String path) async{
-    ByteData byteData = await rootBundle.load(path);
-    var list = byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
-    return utf8.decode(list);
-  }
-
-  setStyleMap(GoogleMapController controller,String dataMapStyle){
-    controller.setMapStyle(dataMapStyle);
-  }*/
   void updateMapTheme(GoogleMapController controller)
   {
     getJsonFileFromThemes("themes/map_theme_night.json").then((value)=> setGoogleMapStyle(value, controller));
@@ -65,9 +55,29 @@ class HomePageState extends State<HomePage> {
     LatLng latLngUser = LatLng(currentPosOfUser!.latitude, currentPosOfUser!.longitude);
     CameraPosition cameraPosition = CameraPosition(target: latLngUser, zoom: 15);
     controllerGoogleMap!.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+    await getStatusOfUser();
   }
 
 
+  getStatusOfUser() async{
+    DatabaseReference usrRef = FirebaseDatabase.instance.ref()
+        .child("users")
+        .child(FirebaseAuth.instance.currentUser!.uid);
+    await usrRef.once().then((snap) {
+      if(snap.snapshot.value != null){
+        if((snap.snapshot.value as Map)["blockedStatus"] == "no"){
+          setState(() {
+            userName = (snap.snapshot.value as Map)["name"];
+          });
+        }
+        else{
+          FirebaseAuth.instance.signOut();
+          Navigator.push(context, MaterialPageRoute(builder: (c)=> LoginPage()));
+          commonMethods.DisplayBox(context, "Error", "This account is blocked. Contact with admin", ContentType.failure);
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

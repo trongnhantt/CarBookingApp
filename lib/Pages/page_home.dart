@@ -30,6 +30,8 @@ class HomePageState extends State<HomePage> {
   GoogleMapController? controllerGoogleMap;
   Position? currentPosOfUser;
 
+  get floatingActionButton => null;
+
 
   void updateMapTheme(GoogleMapController controller)
   {
@@ -164,6 +166,8 @@ class HomePageState extends State<HomePage> {
               ),
 
               GestureDetector(
+
+                // Button Logout feature
                 onTap: ()
                 {
                   FirebaseAuth.instance.signOut();
@@ -187,6 +191,7 @@ class HomePageState extends State<HomePage> {
           GoogleMap(
             mapType: MapType.normal,
             myLocationEnabled: true,
+            myLocationButtonEnabled: false,
             initialCameraPosition: googleInitPos,
             onMapCreated: (GoogleMapController mapController){
               controllerGoogleMap = mapController;
@@ -195,7 +200,6 @@ class HomePageState extends State<HomePage> {
               getCurrentPositionUser();
             },
           ),
-
           // Draw button
           Positioned(
             top: 36,
@@ -204,6 +208,39 @@ class HomePageState extends State<HomePage> {
               onTap: ()
               {
                 sKey.currentState!.openDrawer();
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: const
+                  [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 5,
+                      spreadRadius: 0.5,
+                      offset: Offset(0.7, 0.7),
+                    ),
+                  ],
+                ),
+                child: const CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 20,
+                  child: Icon(
+                    Icons.menu,
+                    color: Colors.black87,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 780,
+            left: 340,
+            child: GestureDetector(
+              onTap: ()
+              {
+                getCurrentPositionUser();
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -220,10 +257,10 @@ class HomePageState extends State<HomePage> {
                   ],
                 ),
                 child: const CircleAvatar(
-                  backgroundColor: Colors.grey,
-                  radius: 20,
+                  backgroundColor: Colors.white,
+                  radius: 30,
                   child: Icon(
-                    Icons.menu,
+                    Icons.access_time_outlined,
                     color: Colors.black87,
                   ),
                 ),
@@ -231,6 +268,8 @@ class HomePageState extends State<HomePage> {
             ),
           ),
         ],
+
+
       ),
 
       // Draw Buttun
@@ -238,6 +277,8 @@ class HomePageState extends State<HomePage> {
 
     );
   }
+
+
 
 
 }

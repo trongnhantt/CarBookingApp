@@ -2,6 +2,7 @@
 import 'package:app_car_booking/Auth/login_screen.dart';
 import 'package:app_car_booking/Auth/signup_screen.dart';
 import 'package:app_car_booking/Map/map_display.dart';
+import 'package:app_car_booking/Pages/page_home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return MaterialApp(
-      home: const LoginPage(),
+      home: const HomePage(),
       title: "Fluter App",
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.black

@@ -189,10 +189,12 @@ class HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           GoogleMap(
+
             mapType: MapType.normal,
             myLocationEnabled: true,
             myLocationButtonEnabled: false,
             initialCameraPosition: googleInitPos,
+            zoomControlsEnabled: false,
             onMapCreated: (GoogleMapController mapController){
               controllerGoogleMap = mapController;
               googleMapCompleter.complete(controllerGoogleMap);

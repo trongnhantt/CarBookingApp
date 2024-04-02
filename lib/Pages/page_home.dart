@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:app_car_booking/Auth/login_screen.dart';
 import 'package:app_car_booking/Methods/common_methods.dart';
+import 'package:app_car_booking/Pages/search_destination_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,6 @@ class HomePageState extends State<HomePage> {
   GoogleMapController? controllerGoogleMap;
   Position? currentPosOfUser;
   double serachContainerHeight = 276;
-
 
   void updateMapTheme(GoogleMapController controller)
   {
@@ -280,7 +280,7 @@ class HomePageState extends State<HomePage> {
                   [
                     ElevatedButton(
                         onPressed: (){
-
+                          Navigator.push(context, MaterialPageRoute(builder: (c)=>SearchDestinationPage()));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey,

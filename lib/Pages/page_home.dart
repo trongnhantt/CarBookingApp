@@ -29,8 +29,7 @@ class HomePageState extends State<HomePage> {
   GlobalKey<ScaffoldState> sKey = GlobalKey<ScaffoldState>();
   GoogleMapController? controllerGoogleMap;
   Position? currentPosOfUser;
-
-  get floatingActionButton => null;
+  double serachContainerHeight = 276;
 
 
   void updateMapTheme(GoogleMapController controller)
@@ -237,8 +236,8 @@ class HomePageState extends State<HomePage> {
             ),
           ),
           Positioned(
-            top: 780,
-            left: 340,
+            top: 40,
+            left: 350,
             child: GestureDetector(
               onTap: ()
               {
@@ -260,15 +259,74 @@ class HomePageState extends State<HomePage> {
                 ),
                 child: const CircleAvatar(
                   backgroundColor: Colors.white,
-                  radius: 30,
+                  radius: 20,
                   child: Icon(
-                    Icons.access_time_outlined,
+                    Icons.my_location,
                     color: Colors.black87,
                   ),
                 ),
               ),
             ),
           ),
+          Positioned(
+              left: 0,
+              right: 0,
+              bottom: -80,
+              child: Container(
+                height: serachContainerHeight,
+                child:  Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children:
+                  [
+                    ElevatedButton(
+                        onPressed: (){
+
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey,
+                          shape: const CircleBorder(),
+                          padding: const EdgeInsets.all(24),
+                        ),
+                        child: const Icon(
+                          Icons.search_rounded,
+                          color: Colors.white,
+                          size: 25,
+                        ),
+                    ),
+                    ElevatedButton(
+                      onPressed: (){
+
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey,
+                        shape: const CircleBorder(),
+                        padding: const EdgeInsets.all(24),
+                      ),
+                      child: const Icon(
+                        Icons.home,
+                        color: Colors.white,
+                        size: 25,
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: (){
+
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey,
+                        shape: const CircleBorder(),
+                        padding: const EdgeInsets.all(24),
+                      ),
+                      child: const Icon(
+                        Icons.work,
+                        color: Colors.white,
+                        size: 25,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+          )
         ],
 
 

@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'dart:ui';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-
+import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
 
 class CommonMethods{
   checkConnectivity(BuildContext context) async{
@@ -50,6 +51,37 @@ class CommonMethods{
       return inputString.substring(endIndex + 1).trim();
     } else return "";
   }
+
+  static sendRequestAPI(String apiUrl) async{
+    http.Response reponseFromApi = await http.get(Uri.parse(apiUrl));
+    try
+    {
+      if(reponseFromApi.statusCode == 200){
+        String jsonData = reponseFromApi.body;
+        var dataDecode = jsonDecode(jsonData);
+        return dataDecode;
+      }else{
+        return "Error";
+      }
+    }
+    catch(errMsg)
+    {
+      return "Error";
+    }
+  }
+
+
+  static Future<String> convertGeoGraphicsIntoAddress(Position position,BuildContext context) async{
+    String address = "";
+    String apiGeoUrl = "https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=AIzaSyDuDxriw8CH8NbVLiXtKFQ2Nb64AoRSdyg";
+    var responseFromApi = await sendRequestAPI(apiGeoUrl);
+    if(responseFromApi != "Error"){
+      address = responseFromApi["results"][0]["formatted_address"];
+      print("Addrees is: " + address);
+    }
+    return address;
+  }
+
 
 
 }

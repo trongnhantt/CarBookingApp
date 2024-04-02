@@ -56,6 +56,7 @@ class HomePageState extends State<HomePage> {
     LatLng latLngUser = LatLng(currentPosOfUser!.latitude, currentPosOfUser!.longitude);
     CameraPosition cameraPosition = CameraPosition(target: latLngUser, zoom: 15);
     controllerGoogleMap!.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+    await CommonMethods.convertGeoGraphicsIntoAddress(currentPosOfUser!, context);
     await getStatusOfUser();
   }
 
@@ -328,13 +329,8 @@ class HomePageState extends State<HomePage> {
               ),
           )
         ],
-
-
       ),
-
       // Draw Buttun
-
-
     );
   }
 

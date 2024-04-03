@@ -6,6 +6,8 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
+import '../Models/AddressModel.dart';
+
 class CommonMethods{
   checkConnectivity(BuildContext context) async{
     var connectionResult = await Connectivity().checkConnectivity();
@@ -78,7 +80,7 @@ class CommonMethods{
     var responseFromApi = await sendRequestAPI(apiGeoUrl);
     if(responseFromApi != "Error"){
       address = responseFromApi["results"][0]["formatted_address"];
-      print("Addrees is: " + address);
+      AddressModel model =  AddressModel(address,position.latitude,position.longitude);
     }
     return address;
   }

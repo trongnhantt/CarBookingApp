@@ -13,10 +13,10 @@ import '../Models/AddressModel.dart';
 class CommonMethods{
   checkConnectivity(BuildContext context) async{
     var connectionResult = await Connectivity().checkConnectivity();
-    if(connectionResult != ConnectivityResult.mobile && connectionResult != ConnectivityResult.wifi){
-      if(!context.mounted) return;
+    /*if(connectionResult != ConnectivityResult.mobile && connectionResult != ConnectivityResult.wifi){
+      if(context.mounted) return;
       DisplayBox(context, "Oh No !!!! ", "Connection errors!! Please check the connection",ContentType.warning);
-    }
+    }*/
   }
 
 

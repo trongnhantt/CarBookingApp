@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget{
     return  ChangeNotifierProvider(
       create: (context) => AppInfor() ,
       child: MaterialApp(
-        home: LoginPage(),
+        home: FirebaseAuth.instance.currentUser == null ? HomePage() : LoginPage(),
         title: "Fluter App",
         theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: Colors.black

@@ -1,4 +1,7 @@
+
+import 'package:app_car_booking/AppInfor/app_info.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class SearchDestinationPage extends StatefulWidget {
@@ -17,6 +20,8 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
   @override
   Widget build(BuildContext context)
   {
+    String address  = Provider.of<AppInfor>(context,listen: false).pickUpAddress!.addressHumman ?? "";
+    pickUpTextEditingController.text = address;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(

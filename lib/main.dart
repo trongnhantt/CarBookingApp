@@ -1,11 +1,14 @@
 
+import 'package:app_car_booking/AppInfor/app_info.dart';
 import 'package:app_car_booking/Auth/login_screen.dart';
 import 'package:app_car_booking/Auth/signup_screen.dart';
 import 'package:app_car_booking/Map/map_display.dart';
 import 'package:app_car_booking/Pages/page_home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 
@@ -29,13 +32,16 @@ class MyApp extends StatelessWidget{
   const MyApp({super.key});
   @override
   Widget build(BuildContext context){
-    return MaterialApp(
-      home: const HomePage(),
-      title: "Fluter App",
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: Colors.black
+    return  ChangeNotifierProvider(
+      create: (context) => AppInfor() ,
+      child: MaterialApp(
+        home: LoginPage(),
+        title: "Fluter App",
+        theme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: Colors.black
+        ),
+        debugShowCheckedModeBanner: false,
       ),
-      debugShowCheckedModeBanner: false,
     );
   }
 

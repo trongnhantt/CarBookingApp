@@ -6,11 +6,5 @@ class AddressModel{
   double? latPosition;
   double? longPosition;
 
-
-
-  AddressModel(String address, double lat, double long){
-    this.addressHumman = address;
-    this.latPosition = lat;
-    this.longPosition = long;
-  }
+  AddressModel({this.addressHumman,this.latPosition,this.longPosition,});
 }

@@ -16,8 +16,6 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
   TextEditingController pickUpTextEditingController = TextEditingController();
   TextEditingController destinationTextEditingController = TextEditingController();
 
-
-
   @override
   void initState() {
     super.initState();
@@ -32,7 +30,18 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
       var responeFromPlaceApi = await CommonMethods.sendRequestAPI(urlApi) ?? {};
       if(responeFromPlaceApi == "error") return;
       if(responeFromPlaceApi["status"] == "OK"){
-        print(responeFromPlaceApi["predictions"].toString());
+        List<dynamic> predictions = responeFromPlaceApi["predictions"];
+        List<Map<String,dynamic>> locations = [];
+        for(var prediction in predictions ){
+          Map<String,dynamic> location = {
+            "description" : prediction["description"],
+            "place_id" : prediction["place_id"],
+            "structured_formatting" : prediction["structured_formatting"],
+          };
+          locations.add(location);
+        }
+
+        print(locations);
       }
     }
   }

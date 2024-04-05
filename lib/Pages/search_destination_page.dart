@@ -18,12 +18,8 @@ class SearchDestinationPage extends StatefulWidget {
 class _SearchDestinationPageState extends State<SearchDestinationPage> {
   TextEditingController pickUpTextEditingController = TextEditingController();
   TextEditingController destinationTextEditingController = TextEditingController();
-
   List<Map<String,dynamic>> locationListDisplay = [];
 
-
-
-  List<PredictionModel> dropDownLocationPredictions = [];
 
   searchLocation(String locationName) async {
     if (locationName.length > 1) {
@@ -214,7 +210,7 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
                   return Card(
                     elevation: 3,
                     child: PredictionPlaceUI(
-                      location : locationListDisplay[index],
+                      predictionData : locationListDisplay[index],
                     ),
                   );
                 },

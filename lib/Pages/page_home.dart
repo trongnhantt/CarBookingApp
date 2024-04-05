@@ -12,7 +12,10 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import '../AppInfor/app_info.dart';
 import '../Global/global_var.dart';
+import '../Models/prediction_place_ui.dart';
 
 
 
@@ -31,6 +34,8 @@ class HomePageState extends State<HomePage> {
   GoogleMapController? controllerGoogleMap;
   Position? currentPosOfUser;
   double serachContainerHeight = 276;
+
+
 
   void updateMapTheme(GoogleMapController controller)
   {
@@ -81,8 +86,14 @@ class HomePageState extends State<HomePage> {
     });
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
     return  Scaffold(
       key: sKey,
       drawer: Container(
@@ -188,8 +199,8 @@ class HomePageState extends State<HomePage> {
       ),
       body: Stack(
         children: [
-          GoogleMap(
 
+          GoogleMap(
             mapType: MapType.normal,
             myLocationEnabled: true,
             myLocationButtonEnabled: false,
@@ -202,6 +213,7 @@ class HomePageState extends State<HomePage> {
               getCurrentPositionUser();
             },
           ),
+
           // Draw button
           Positioned(
             top: 36,
@@ -327,15 +339,13 @@ class HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-          )
+          ),
         ],
       ),
+
       // Draw Buttun
     );
   }
-
-
-
 
 }
 

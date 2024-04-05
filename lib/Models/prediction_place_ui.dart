@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class PredictionPlaceUI extends StatefulWidget
 {
-  Map<String,dynamic> location;
-  PredictionPlaceUI({super.key, required this.location,});
+  Map<String,dynamic> predictionData;
+  PredictionPlaceUI({super.key, required this.predictionData,});
   @override
   State<PredictionPlaceUI> createState() => _PredictionPlaceUIState();
 }
@@ -39,7 +39,7 @@ class _PredictionPlaceUIState extends State<PredictionPlaceUI> {
                     children: [
 
                       Text(
-                        widget.location["description"].toString(),
+                        widget.predictionData["description"].toString(),
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontSize: 16,
@@ -50,7 +50,7 @@ class _PredictionPlaceUIState extends State<PredictionPlaceUI> {
                       const SizedBox(height: 3,),
 
                       Text(
-                        widget.location["structured_formatting"]["secondary_text"].toString(),
+                        widget.predictionData["structured_formatting"]["secondary_text"].toString(),
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontSize: 12,

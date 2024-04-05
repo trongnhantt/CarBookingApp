@@ -5,6 +5,8 @@ import 'package:app_car_booking/Models/prediction_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../Models/prediction_place_ui.dart';
+
 
 class SearchDestinationPage extends StatefulWidget {
   const SearchDestinationPage({super.key});
@@ -25,17 +27,14 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
 
   searchLocation(String locationName) async {
     if (locationName.length > 1) {
-      /*String urlApi = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$locationName&language=vn&types=geocode&key=AIzaSyDuDxriw8CH8NbVLiXtKFQ2Nb64AoRSdyg&components=country:vn";*/
+      // Get Api from url
       String urlApi = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$locationName&key=AIzaSyDuDxriw8CH8NbVLiXtKFQ2Nb64AoRSdyg&components=country:vn";
       var responseFromPlaceApi = await CommonMethods.sendRequestAPI(urlApi) ?? {};
       if (responseFromPlaceApi == "Error") return;
+
+
+      // Process Data if API response
       if(responseFromPlaceApi["status"] == "OK"){
-        /*var predicationResultInJson = responseFromPlaceApi["predictions"];
-        var predications =  (predicationResultInJson as List).map((eachPlacePrediction) => PredictionModel.fromJson(eachPlacePrediction)).toList();
-        setState(() {
-          dropDownLocationPredictions = predications;
-        });
-        print("Prediction In Json: " + predicationResultInJson.toString());*/
         List<dynamic> predictions =[];
         List<Map<String,dynamic>> locations = [];
         predictions = responseFromPlaceApi["predictions"] ?? {};
@@ -204,7 +203,29 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
                 ),
               ),
             ),
-            SizedBox(
+            //display prediction results for destination place
+            (locationListDisplay.length > 0)
+                ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              child: ListView.separated(
+                padding: const EdgeInsets.all(0),
+                itemBuilder: (context, index)
+                {
+                  return Card(
+                    elevation: 3,
+                    child: PredictionPlaceUI(
+                      location : locationListDisplay[index],
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 2,),
+                itemCount: locationListDisplay.length,
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+              ),
+            )
+                : Container(),
+            /*SizedBox(
               height: 400, // Adjust the height as per your requirement
               child: ListView.builder(
                 itemCount: locationListDisplay.length,
@@ -219,7 +240,7 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
                   );
                 },
               ),
-            ),
+            ),*/
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 
 import 'package:app_car_booking/AppInfor/app_info.dart';
+import 'package:app_car_booking/Methods/common_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,8 +19,28 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
 
 
   @override
+  void initState() {
+    super.initState();
+    destinationTextEditingController.addListener(() {
+      searchLocation(destinationTextEditingController.text);
+    });
+  }
+
+  searchLocation(String locationName) async{
+    if(locationName.length > 1){
+      String urlApi = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${locationName.toString()}&language=vn&types=geocode&key=AIzaSyDuDxriw8CH8NbVLiXtKFQ2Nb64AoRSdyg";
+      var responeFromPlaceApi = await CommonMethods.sendRequestAPI(urlApi) ?? {};
+      if(responeFromPlaceApi == "error") return;
+      if(responeFromPlaceApi["status"] == "OK"){
+        print(responeFromPlaceApi["predictions"].toString());
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context)
   {
+
     String address  = Provider.of<AppInfor>(context,listen: false).pickUpAddress!.addressHumman ?? "";
     pickUpTextEditingController.text = address;
     return Scaffold(
@@ -166,4 +187,6 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
       ),
     );
   }
+
+
 }

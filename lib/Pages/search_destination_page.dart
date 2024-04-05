@@ -15,7 +15,8 @@ class SearchDestinationPage extends StatefulWidget {
 class _SearchDestinationPageState extends State<SearchDestinationPage> {
   TextEditingController pickUpTextEditingController = TextEditingController();
   TextEditingController destinationTextEditingController = TextEditingController();
-
+  List<dynamic> predictions =[];
+  List<Map<String,dynamic>> locations = [];
   @override
   void initState() {
     super.initState();
@@ -30,8 +31,7 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
       var responeFromPlaceApi = await CommonMethods.sendRequestAPI(urlApi) ?? {};
       if(responeFromPlaceApi == "error") return;
       if(responeFromPlaceApi["status"] == "OK"){
-        List<dynamic> predictions = responeFromPlaceApi["predictions"];
-        List<Map<String,dynamic>> locations = [];
+        predictions = responeFromPlaceApi["predictions"];
         for(var prediction in predictions ){
           Map<String,dynamic> location = {
             "description" : prediction["description"],
@@ -190,7 +190,6 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
                 ),
               ),
             ),
-
           ],
         ),
       ),

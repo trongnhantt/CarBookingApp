@@ -1,6 +1,7 @@
 
 import 'package:app_car_booking/AppInfor/app_info.dart';
 import 'package:app_car_booking/Methods/common_methods.dart';
+import 'package:app_car_booking/Models/prediction_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,23 +16,29 @@ class SearchDestinationPage extends StatefulWidget {
 class _SearchDestinationPageState extends State<SearchDestinationPage> {
   TextEditingController pickUpTextEditingController = TextEditingController();
   TextEditingController destinationTextEditingController = TextEditingController();
-  List<dynamic> predictions =[];
-  List<Map<String,dynamic>> locations = [];
-  @override
-  void initState() {
-    super.initState();
-    destinationTextEditingController.addListener(() {
-      searchLocation(destinationTextEditingController.text);
-    });
-  }
 
-  searchLocation(String locationName) async{
-    if(locationName.length > 1){
-      String urlApi = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${locationName.toString()}&language=vn&types=geocode&key=AIzaSyDuDxriw8CH8NbVLiXtKFQ2Nb64AoRSdyg";
-      var responeFromPlaceApi = await CommonMethods.sendRequestAPI(urlApi) ?? {};
-      if(responeFromPlaceApi == "error") return;
-      if(responeFromPlaceApi["status"] == "OK"){
-        predictions = responeFromPlaceApi["predictions"];
+  List<Map<String,dynamic>> locationListDisplay = [];
+
+
+
+  List<PredictionModel> dropDownLocationPredictions = [];
+
+  searchLocation(String locationName) async {
+    if (locationName.length > 1) {
+      /*String urlApi = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$locationName&language=vn&types=geocode&key=AIzaSyDuDxriw8CH8NbVLiXtKFQ2Nb64AoRSdyg&components=country:vn";*/
+      String urlApi = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$locationName&key=AIzaSyDuDxriw8CH8NbVLiXtKFQ2Nb64AoRSdyg&components=country:vn";
+      var responseFromPlaceApi = await CommonMethods.sendRequestAPI(urlApi) ?? {};
+      if (responseFromPlaceApi == "Error") return;
+      if(responseFromPlaceApi["status"] == "OK"){
+        /*var predicationResultInJson = responseFromPlaceApi["predictions"];
+        var predications =  (predicationResultInJson as List).map((eachPlacePrediction) => PredictionModel.fromJson(eachPlacePrediction)).toList();
+        setState(() {
+          dropDownLocationPredictions = predications;
+        });
+        print("Prediction In Json: " + predicationResultInJson.toString());*/
+        List<dynamic> predictions =[];
+        List<Map<String,dynamic>> locations = [];
+        predictions = responseFromPlaceApi["predictions"] ?? {};
         for(var prediction in predictions ){
           Map<String,dynamic> location = {
             "description" : prediction["description"],
@@ -40,23 +47,26 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
           };
           locations.add(location);
         }
-
-        print(locations);
+        setState(() {
+          locationListDisplay = locations;
+        });
+        print(locationListDisplay);
       }
     }
   }
 
-  @override
-  Widget build(BuildContext context)
-  {
 
-    String address  = Provider.of<AppInfor>(context,listen: false).pickUpAddress!.addressHumman ?? "";
+  @override
+  Widget build(BuildContext context) {
+    String address = Provider
+        .of<AppInfor>(context, listen: false)
+        .pickUpAddress!
+        .addressHumman ?? "";
     pickUpTextEditingController.text = address;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-
             Card(
               elevation: 10,
               child: Container(
@@ -74,7 +84,8 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 24, top: 48, right: 24, bottom: 20),
+                  padding: const EdgeInsets.only(
+                      left: 24, top: 48, right: 24, bottom: 20),
                   child: Column(
                     children: [
 
@@ -85,11 +96,11 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
                         children: [
 
                           GestureDetector(
-                            onTap: ()
-                            {
+                            onTap: () {
                               Navigator.pop(context);
                             },
-                            child: const Icon(Icons.arrow_back, color: Colors.white,),
+                            child: const Icon(
+                              Icons.arrow_back, color: Colors.white,),
                           ),
 
                           const Center(
@@ -135,7 +146,8 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
                                       filled: true,
                                       border: InputBorder.none,
                                       isDense: true,
-                                      contentPadding: EdgeInsets.only(left: 11, top: 9, bottom: 9)
+                                      contentPadding: EdgeInsets.only(
+                                          left: 11, top: 9, bottom: 9)
                                   ),
                                 ),
                               ),
@@ -169,25 +181,43 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
                                 padding: const EdgeInsets.all(3),
                                 child: TextField(
                                   controller: destinationTextEditingController,
+                                  onChanged: (inpuText){
+                                    searchLocation(inpuText);
+                                  },
                                   decoration: const InputDecoration(
                                       hintText: "Destination Address",
                                       fillColor: Colors.white12,
                                       filled: true,
                                       border: InputBorder.none,
                                       isDense: true,
-                                      contentPadding: EdgeInsets.only(left: 11, top: 9, bottom: 9)
+                                      contentPadding: EdgeInsets.only(
+                                          left: 11, top: 9, bottom: 9)
                                   ),
                                 ),
                               ),
                             ),
                           ),
-
                         ],
                       ),
-
                     ],
                   ),
                 ),
+              ),
+            ),
+            SizedBox(
+              height: 400, // Adjust the height as per your requirement
+              child: ListView.builder(
+                itemCount: locationListDisplay.length,
+                itemBuilder: (context, index) {
+                  final location = locationListDisplay[index];
+                  return ListTile(
+                    title: Text(location["description"]),
+                    onTap: () {
+                      print('Bạn đã chọn mục có thứ tự index là: $index');
+                      destinationTextEditingController.text =  locationListDisplay[index]["description"].toString();
+                      },
+                  );
+                },
               ),
             ),
           ],
@@ -195,6 +225,4 @@ class _SearchDestinationPageState extends State<SearchDestinationPage> {
       ),
     );
   }
-
-
 }

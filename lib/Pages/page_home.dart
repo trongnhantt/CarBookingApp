@@ -40,6 +40,9 @@ class HomePageState extends State<HomePage> {
 
 
 
+  TextEditingController pickUpTextEditingController = TextEditingController();
+  TextEditingController destinationTextEditingController = TextEditingController();
+  List<Map<String,dynamic>> locationListDisplay = [];
 
 
 
@@ -225,9 +228,10 @@ class HomePageState extends State<HomePage> {
             },
           ),
 
-           SlidingUpPanel(
+
+
+         SlidingUpPanel(
             panel:  Center(
-              /*child: Text("This is the sliding Widget"),*/
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start, // Đẩy biểu tượng lên phía trên
                 children: [
@@ -235,7 +239,7 @@ class HomePageState extends State<HomePage> {
                     child: Center(
                       child: Container(
                         margin: const EdgeInsets.only(top:10),
-                        height: 10,
+                        height: 5,
                         width: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -245,17 +249,133 @@ class HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  const SafeArea(
+                  const SizedBox(height: 4.0,),
+                   SafeArea(
                     top: false,
                     child: Column(
                       children: [
-                        Text(
-                            "Hello my friend",
+                        const Text(
+                            "Set your destination",
                             style: TextStyle(
-                              fontWeight: FontWeight.normal,
+                              fontWeight: FontWeight.bold,
                               color: Colors.black,
+                              fontSize: 20,
                             ),
-                        )
+                        ),
+                        const SizedBox(height: 4.0,),
+                        const Text(
+                          "Type and pick from suggestion",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        ),
+                        const Divider(height: 30,color: Colors.grey,),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20.0),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: 8.0,
+                                    width: 8.0,
+                                    margin: const EdgeInsets.all(2.0),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.green,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 40.0,
+                                    width: 2.0,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 8.0,
+                                    width: 8.0,
+                                    margin: const EdgeInsets.all(2.0),
+                                    decoration: const BoxDecoration(color: Colors.green,),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 20.0),
+                                child: Column(
+                                  children: [
+                                    TextFormField(
+                                      readOnly: true,
+                                      controller: pickUpTextEditingController,
+                                      decoration: const InputDecoration(
+                                        isDense: true,
+                                        prefixIcon: Icon(Icons.search),
+                                        border: InputBorder.none,
+                                      ),
+                                    ),
+                                    TextFormField(
+                                      onChanged: (inpuText){
+
+                                      },
+                                      controller: destinationTextEditingController,
+                                      decoration: const InputDecoration(
+                                        isDense: true,
+                                        prefixIcon: Icon(Icons.search),
+                                        hintText: "Where go ?",
+                                        hintStyle: TextStyle(color: Colors.greenAccent),
+                                        border: InputBorder.none,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 5.0),
+                        Container(
+                          height: 200,
+                          child: ListView.builder(
+                            itemCount: 5,
+                            padding: EdgeInsets.only(right: 10),
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                leading: const Icon(Icons.location_on),
+                                title: Text("Index $index"),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Index address $index"),
+                                    Container(
+                                      height: 1,
+                                      margin: const EdgeInsets.only(top: 8.0),
+                                      color: Colors.grey,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 15.0,),
+                        Container(
+                          child: Center(
+                            child: Container(
+                              margin: const EdgeInsets.only(top:10),
+                              height: 20,
+                              width: 150,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.grey,
+                              ),
+
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -422,7 +542,11 @@ class HomePageState extends State<HomePage> {
 
       // Draw Buttun
     );
+
+
+
   }
+
 
 }
 

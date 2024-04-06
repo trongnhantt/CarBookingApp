@@ -44,6 +44,7 @@ dependencies:
   geolocator:
   http:
   provider:
+  sliding_up_panel:
 
 dev_dependencies:
   flutter_test:

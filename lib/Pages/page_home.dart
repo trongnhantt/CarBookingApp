@@ -7,12 +7,15 @@ import 'package:app_car_booking/Methods/common_methods.dart';
 import 'package:app_car_booking/Pages/search_destination_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../AppInfor/app_info.dart';
 import '../Global/global_var.dart';
 import '../Models/prediction_place_ui.dart';
@@ -34,6 +37,10 @@ class HomePageState extends State<HomePage> {
   GoogleMapController? controllerGoogleMap;
   Position? currentPosOfUser;
   double serachContainerHeight = 276;
+
+
+
+
 
 
 
@@ -88,12 +95,16 @@ class HomePageState extends State<HomePage> {
 
 
 
-
+  
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
+
+
+    const BorderRadiusGeometry radius = BorderRadius.only(
+      topLeft: Radius.circular(24.0),
+      topRight: Radius.circular(24.0),
+    );
+
     return  Scaffold(
       key: sKey,
       drawer: Container(
@@ -214,6 +225,72 @@ class HomePageState extends State<HomePage> {
             },
           ),
 
+           SlidingUpPanel(
+            panel:  Center(
+              /*child: Text("This is the sliding Widget"),*/
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start, // Đẩy biểu tượng lên phía trên
+                children: [
+                  Container(
+                    child: Center(
+                      child: Container(
+                        margin: const EdgeInsets.only(top:10),
+                        height: 10,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.grey,
+                        ),
+
+                      ),
+                    ),
+                  ),
+                  const SafeArea(
+                    top: false,
+                    child: Column(
+                      children: [
+                        Text(
+                            "Hello my friend",
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black,
+                            ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+             collapsed: Container(
+               decoration: const BoxDecoration(
+                 color: Colors.white,
+                 borderRadius: radius,
+               ),
+               child:  Column(
+                 mainAxisAlignment: MainAxisAlignment.start, // Đẩy biểu tượng lên phía trên
+                 children: [
+                   Container(
+                     child: Center(
+                       child: Container(
+                         margin: const EdgeInsets.only(top:10),
+                         height: 10,
+                         width: 50,
+                         decoration: BoxDecoration(
+                           borderRadius: BorderRadius.circular(10),
+                           color: Colors.grey,
+                         ),
+
+                       ),
+                     ),
+                   ),
+                 ],
+               ),
+             ),
+            borderRadius: radius,
+          ),
+
           // Draw button
           Positioned(
             top: 36,
@@ -281,7 +358,7 @@ class HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Positioned(
+          /*Positioned(
               left: 0,
               right: 0,
               bottom: -80,
@@ -339,7 +416,7 @@ class HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-          ),
+          ),*/
         ],
       ),
 

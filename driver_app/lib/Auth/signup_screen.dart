@@ -1,12 +1,14 @@
 import 'dart:io';
-import 'package:app_car_booking/Auth/login_screen.dart';
+import 'package:driver_app/Auth/login_screen.dart';
+import 'package:driver_app/pages/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import '../Methods/common_methods.dart';
-import '../Pages/page_home.dart';
 import '../Widgets/loading_dialog.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+
+import 'login_screen.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -88,16 +90,16 @@ class _SignUpPage extends State<SignUpPage> {
 
     DatabaseReference userRef = FirebaseDatabase.instance.ref().child("users").child(userFirebase!.uid);
 
-    Map userDataMap = {
+    Map DriverDataMap = {
       "email": emailEditText.text.trim(),
       "name" : usernameEditText.text.trim(),
       "phone": phoneEditText.text.trim(),
       "password" : passwordEditText.text.trim(),
       "blockedStatus" : "no",
     };
-    userRef.set(userDataMap);
+    userRef.set(DriverDataMap);
     commonMethods.DisplayBox(context, "Congratulations", "Registered successfully", ContentType.success);
-    Navigator.push(context, MaterialPageRoute(builder: (c)=>LoginPage()));
+    Navigator.push(context, MaterialPageRoute(builder: (c)=>Dashboard()));
   }
   bool rememberUser = false;
 
@@ -137,7 +139,7 @@ class _SignUpPage extends State<SignUpPage> {
             color: Colors.white,
           ),
           Text(
-            "MOVE  EASE",
+            "MOVE EASE",
             style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

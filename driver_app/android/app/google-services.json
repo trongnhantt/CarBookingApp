@@ -1,0 +1,87 @@
+{
+  "project_info": {
+    "project_number": "127129699843",
+    "firebase_url": "https://move-eese-app-admin-default-rtdb.firebaseio.com",
+    "project_id": "move-eese-app-admin",
+    "storage_bucket": "move-eese-app-admin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127129699843:android:99da925ee093a3d8f1b036",
+        "android_client_info": {
+          "package_name": "com.edward.driverapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbMNaYG54dqrE4TH03TETRp7MyXOCuuu8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127129699843:android:7b898d736a41638cf1b036",
+        "android_client_info": {
+          "package_name": "com.example.app_car_booking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbMNaYG54dqrE4TH03TETRp7MyXOCuuu8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127129699843:android:0d4568d9f076ce53f1b036",
+        "android_client_info": {
+          "package_name": "com.example.appcarbooking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbMNaYG54dqrE4TH03TETRp7MyXOCuuu8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127129699843:android:f052dd3ba878e8d4f1b036",
+        "android_client_info": {
+          "package_name": "com.example.firstproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbMNaYG54dqrE4TH03TETRp7MyXOCuuu8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

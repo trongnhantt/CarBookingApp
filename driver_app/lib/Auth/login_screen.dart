@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    myColor = Colors.purpleAccent;
+    myColor = Colors.green;
     mediaSize = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
@@ -125,17 +125,13 @@ class _LoginPageState extends State<LoginPage> {
       child: const Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.location_on_sharp,
-            size: 100,
-            color: Colors.white,
-          ),
           Text(
-            "MOVE EASE FOR DRIVER",
+            "EASY MOVE",
             style: TextStyle(
-                color: Colors.white,
+                color: Colors.green,
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
+                fontFamily: 'Hokjesgeest',
                 letterSpacing: 2),
           )
         ],
@@ -167,14 +163,14 @@ class _LoginPageState extends State<LoginPage> {
         const Text(
           "Welcome",
           style: TextStyle(
-              color: Colors.purpleAccent, fontSize: 32, fontWeight: FontWeight.w500),
+              color: Colors.white, fontSize: 32, fontWeight: FontWeight.w500),
         ),
         _buildGreyText("Please login with your information"),
         const SizedBox(height: 60),
-        _buildGreyText("Email address"),
+        //_buildGreyText("Email address"),
         _buildInputField(emailEditText),
         const SizedBox(height: 40),
-        _buildGreyText("Password"),
+        //_buildGreyText("Password"),
         _buildInputField(passwordEditText, isPassword: true),
         const SizedBox(height: 20),
         _buildRememberForgot(),
@@ -203,16 +199,40 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildInputField(TextEditingController controller,
-      {isPassword = false}) {
+  // Widget _buildInputField(TextEditingController controller,
+  //     {isPassword = false}) {
+  //   return TextField(
+  //     controller: controller,
+  //     decoration: InputDecoration(
+  //       suffixIcon: isPassword ? Icon(Icons.remove_red_eye) : Icon(Icons.email),
+  //     ),
+  //     obscureText: isPassword,
+  //   );
+  // }
+
+  Widget _buildInputField(TextEditingController controller, {bool isPassword = false}) {
     return TextField(
       controller: controller,
-      decoration: InputDecoration(
-        suffixIcon: isPassword ? Icon(Icons.remove_red_eye) : Icon(Icons.email),
-      ),
       obscureText: isPassword,
+      style: TextStyle(color: Colors.black),
+      decoration: InputDecoration(
+        suffixIcon: isPassword ? Icon(Icons.remove_red_eye, color: Colors.grey,) : Icon(Icons.email, color: Colors.grey,),
+        hintText: isPassword ? "PASSWORD" : "EMAIL",
+        hintStyle: TextStyle(color: Colors.grey),
+        filled: true,
+        fillColor: Colors.white,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Colors.black),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Colors.green),
+        ),
+      ),
     );
   }
+
 
   Widget _buildRememberForgot() {
     return Row(
@@ -244,7 +264,8 @@ class _LoginPageState extends State<LoginPage> {
       style: ElevatedButton.styleFrom(
         shape: const StadiumBorder(),
         elevation: 20,
-        shadowColor: myColor,
+        shadowColor: Colors.green,
+        backgroundColor: Colors.green,
         minimumSize: const Size.fromHeight(60),
       ),
       child: const Text("LOGIN"),
@@ -265,7 +286,7 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: _buildColorText("Sign up now !!! ",Colors.purpleAccent),
+                  child: _buildColorText("Sign up now !!! ",Colors.green),
                 ),
               ),
               GestureDetector(

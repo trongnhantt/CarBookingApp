@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:driver_app/Auth/login_screen.dart';
+import 'package:driver_app/Auth/registrationform_screen.dart';
 import 'package:driver_app/pages/dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -8,7 +9,6 @@ import '../Methods/common_methods.dart';
 import '../Widgets/loading_dialog.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
-import 'login_screen.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -88,30 +88,38 @@ class _SignUpPage extends State<SignUpPage> {
     if(!context.mounted) return;
     Navigator.pop(context);
 
-    DatabaseReference userRef = FirebaseDatabase.instance.ref().child("users").child(userFirebase!.uid);
+    DatabaseReference userRef = FirebaseDatabase.instance.ref().child("drivers").child(userFirebase!.uid);
+
+    Map driverCarInfo = {
+      "carModel": "",
+      "carColor": "",
+      "carNumber": "",
+    };
 
     Map DriverDataMap = {
+
       "email": emailEditText.text.trim(),
       "name" : usernameEditText.text.trim(),
       "phone": phoneEditText.text.trim(),
       "password" : passwordEditText.text.trim(),
       "blockedStatus" : "no",
     };
+
     userRef.set(DriverDataMap);
     commonMethods.DisplayBox(context, "Congratulations", "Registered successfully", ContentType.success);
-    Navigator.push(context, MaterialPageRoute(builder: (c)=>Dashboard()));
+    Navigator.push(context, MaterialPageRoute(builder: (c)=>RegistrationPage()));
   }
   bool rememberUser = false;
 
   @override
   Widget build(BuildContext context) {
-    myColor = Colors.purpleAccent;
+    myColor = Colors.green;
     mediaSize = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        color:  Colors.transparent,
+        color: Colors.transparent,
         image: DecorationImage(
-          image: const AssetImage("assets/images/bg.png"),
+          image: const AssetImage("assets/images/uberexec.png"),
           fit: BoxFit.cover,
           colorFilter:
           ColorFilter.mode(myColor.withOpacity(0.2), BlendMode.dstATop),
@@ -132,18 +140,15 @@ class _SignUpPage extends State<SignUpPage> {
       width: mediaSize.width,
       child: const Column(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Icon(
-            Icons.location_on_sharp,
-            size: 100,
-            color: Colors.white,
-          ),
           Text(
-            "MOVE EASE",
+            "EASY MOVE",
             style: TextStyle(
-                color: Colors.white,
+                color: Colors.green,
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
+                fontFamily: 'Hokjesgeest',
                 letterSpacing: 2),
           )
         ],
@@ -157,8 +162,8 @@ class _SignUpPage extends State<SignUpPage> {
       child: Card(
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
+              topLeft: Radius.circular(40),
+              topRight: Radius.circular(40),
             )),
         child: Padding(
           padding: const EdgeInsets.all(32.0),
@@ -172,32 +177,32 @@ class _SignUpPage extends State<SignUpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        /*Text(
-          "Welcome",
+        Text(
+          "Driver With EASY MOVE",
           style: TextStyle(
-              color: myColor, fontSize: 30, fontWeight: FontWeight.w500),
+              color: Colors.white, fontSize: 23, fontWeight: FontWeight.w400),
         ),
-        const SizedBox(height: 20),*/
+        const SizedBox(height: 20),
 
-        _buildGreyText("Email address"),
-        _buildInputField(emailEditText,Icons.email),
+        //_buildGreyText("Email"),
+        _buildInputField(emailEditText,"Email",Icons.email),
         const SizedBox(height: 15),
 
-        _buildGreyText("Username"),
-        _buildInputField(usernameEditText,Icons.account_circle),
+        //_buildGreyText("Username"),
+        _buildInputField(usernameEditText,"Username",Icons.account_circle),
         const SizedBox(height: 15),
 
 
-        _buildGreyText("Phone number"),
-        _buildInputField(phoneEditText,Icons.phone),
+        //_buildGreyText("Phone number"),
+        _buildInputField(phoneEditText,"Phone number",Icons.phone),
         const SizedBox(height: 15),
 
-        _buildGreyText("Password"),
-        _buildInputField(passwordEditText,Icons.remove_red_eye, isPassword: true),
+        //_buildGreyText("Password"),
+        _buildInputField(passwordEditText,"Password",Icons.remove_red_eye, isPassword: true),
         const SizedBox(height: 15),
 
-        _buildGreyText("Conform password"),
-        _buildInputField(confirmPwdEditText,Icons.remove_red_eye, isPassword: true),
+        //_buildGreyText("Conform password"),
+        _buildInputField(confirmPwdEditText,"Conform password",Icons.remove_red_eye, isPassword: true),
         const SizedBox(height: 20),
 
         _buildSignUpButton(),
@@ -224,16 +229,46 @@ class _SignUpPage extends State<SignUpPage> {
     );
   }
 
-  Widget _buildInputField(TextEditingController controller,IconData icon ,
-      {isPassword = false}) {
-    return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        suffixIcon: isPassword ? Icon(Icons.remove_red_eye) : Icon(icon),
+  Widget _buildInputField(TextEditingController controller, String label, IconData icon, {bool isPassword = false}) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
       ),
-      obscureText: isPassword,
+      child: TextField(
+        controller: controller,
+        obscureText: isPassword,
+        style: TextStyle(color: Colors.black),
+        decoration: InputDecoration(
+          hintText: label,
+          hintStyle: TextStyle(color: Colors.grey),
+          border: InputBorder.none,
+          suffixIcon: Icon(icon, color: Colors.grey,),
+        ),
+      ),
     );
   }
+
+
+  // Widget _buildInputField(TextEditingController controller,IconData icon ,
+  //     {isPassword = false}) {
+  //   return TextField(
+  //     controller: controller,
+  //     decoration: InputDecoration(
+  //       suffixIcon: isPassword ? Icon(Icons.remove_red_eye) : Icon(icon),
+  //     ),
+  //     obscureText: isPassword,
+  //   );
+  // }
 
   Widget _buildRememberForgot() {
     return Row(
@@ -265,7 +300,7 @@ class _SignUpPage extends State<SignUpPage> {
       style: ElevatedButton.styleFrom(
         shape: const StadiumBorder(),
         elevation: 20,
-        shadowColor: myColor,
+        backgroundColor: Colors.green,
         minimumSize: const Size.fromHeight(60),
       ),
       child: const Text("SIGN UP"),
@@ -291,7 +326,7 @@ class _SignUpPage extends State<SignUpPage> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: _buildColorText("Log in now !!! ",Colors.purpleAccent),
+                  child: _buildColorText("Log in now !!! ",Colors.green),
                 ),
               ),
             ],

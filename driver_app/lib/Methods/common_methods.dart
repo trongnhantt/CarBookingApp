@@ -71,5 +71,7 @@ class CommonMethods{
     }
   }
 
+  static convertGeoGraphicsIntoAddress(Position position, BuildContext context) {}
+
 
 }

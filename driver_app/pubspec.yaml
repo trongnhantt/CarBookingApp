@@ -44,6 +44,7 @@ dependencies:
   google_maps_flutter:
   permission_handler:
   geolocator:
+  image_picker:
 
 dev_dependencies:
   flutter_test:
@@ -66,7 +67,11 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
+  fonts:
+    - family: Hokjesgeest
+      fonts:
+        - asset: assets/fonts/Hokjesgeest.ttf
+          weight: 700
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/images/
